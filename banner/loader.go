@@ -4,26 +4,27 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func Load(bannerName string) map[rune][]string {
 	//reading the banner file and storing it
-	fileData, err := os.ReadFile(bannerName)
+	fileData, err := os.Open(bannerName)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "There was an Error reading file %v", err)
 		os.Exit(1)
 	}
 
-	fileContent := string(fileData)
+	defer fileData.Close()
 
-	var lines string
+	var lines []string
 
-	scanner := bufio.NewScanner(fileContent)
+	scanner := bufio.NewScanner(fileData)
 
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		line = scanner.TrimRight(line, "\r")
+		line = strings.TrimRight(line, "\r")
 
 		lines = append(lines, line)
 	}
