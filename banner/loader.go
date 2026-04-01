@@ -15,10 +15,13 @@ func Load(bannerName string) map[rune][]string {
 		os.Exit(1)
 	}
 
+	//closing the file
 	defer fileData.Close()
 
+	//declaring the variable that will load the content of the loaded file
 	var lines []string
 
+	//going into the content
 	scanner := bufio.NewScanner(fileData)
 
 	for scanner.Scan() {
